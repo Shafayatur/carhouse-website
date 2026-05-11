@@ -151,7 +151,6 @@ const BRANDS = [
   { name: "Jaguar", origin: "UK" }, { name: "Subaru", origin: "Japan" },
   { name: "Mitsubishi", origin: "Japan" }, { name: "Ford", origin: "USA" },
   { name: "Mustang", origin: "USA" }, { name: "Corolla", origin: "Japan" },
-  { name: "Honda", origin: "Japan" }, { name: "Honda", origin: "Japan" },
 ];
 
 const TESTIMONIALS = [
@@ -419,36 +418,32 @@ function useCounter(target: number, active: boolean, duration = 1800) {
 ══════════════════════════════════════════════════════════════ */
 function useReveal() {
   useEffect(() => {
-    // Retry attaching observer until elements exist
-    let attempts = 0;
-    const attach = () => {
-      const els = document.querySelectorAll(".reveal,.reveal-l,.reveal-r");
-      if (els.length === 0 && attempts < 20) {
-        attempts++;
-        setTimeout(attach, 200);
-        return;
-      }
-      const obs = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add("in");
-            obs.unobserve(e.target);
-          }
-        });
-      }, { threshold: 0.05, rootMargin: "0px 0px -20px 0px" });
-      els.forEach(el => obs.observe(el));
-      // Also immediately show elements already in viewport
-      els.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight) {
-          el.classList.add("in");
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add("in");
+          obs.unobserve(e.target);
         }
       });
+    }, { threshold: 0.05, rootMargin: "0px 0px -20px 0px" });
+
+    const scan = () => {
+      document.querySelectorAll(".reveal:not(.in),.reveal-l:not(.in),.reveal-r:not(.in)").forEach(el => {
+        obs.observe(el);
+      });
     };
-    const timer = setTimeout(attach, 500);
-    return () => clearTimeout(timer);
+
+    scan();
+    const mo = new MutationObserver(scan);
+    mo.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      obs.disconnect();
+      mo.disconnect();
+    };
   }, []);
 }
+
 
 /* ══════════════════════════════════════════════════════════════
    LOADER
