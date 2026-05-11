@@ -583,46 +583,47 @@ const Fleet = ({ vehicles, onSelect }: { vehicles: Vehicle[]; onSelect: (v: Vehi
   const shown = vehicles.filter(v => (filter === "all" || v.status.toLowerCase() === filter) && `${v.make} ${v.model}`.toLowerCase().includes(search.toLowerCase()));
 
   return (
-    <section id="fleet" style={{ padding: "120px 0", background: "#0a0a0a", borderTop: "1px solid rgba(255,255,255,0.08)" }}>        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 60, gap: 24, flexWrap: "wrap" }}>
-        <div className="reveal">
-          <p className="sec-tag" style={{ fontFamily: "var(--fc)", fontSize: 10, fontWeight: 700, letterSpacing: "0.38em", textTransform: "uppercase", color: "var(--gold)", marginBottom: 20 }}>Current Collection</p>
-          <h2 style={{ fontFamily: "var(--fd)", fontSize: "clamp(40px,5vw,70px)", fontWeight: 300, color: "white", lineHeight: 1.05 }}>Available <em style={{ fontStyle: "italic", color: "var(--gold)" }}>Vehicles</em></h2>
-        </div>
-        <div className="reveal d2" style={{ display: "flex", gap: 4, flexWrap: "wrap", alignItems: "center" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.04)", border: "1px solid var(--border2)", padding: "8px 14px", marginRight: 8 }}>
-            <span style={{ color: "var(--silver)", fontSize: 13 }}>⌕</span>
-            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search…" style={{ background: "none", border: "none", color: "white", outline: "none", fontSize: 13, fontFamily: "var(--fb)", width: 120 }} />
+    <section id="fleet" style={{ padding: "120px 0", background: "#0a0a0a", borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 60, gap: 24, flexWrap: "wrap" }}>
+          <div className="reveal">
+            <p className="sec-tag" style={{ fontFamily: "var(--fc)", fontSize: 10, fontWeight: 700, letterSpacing: "0.38em", textTransform: "uppercase", color: "var(--gold)", marginBottom: 20 }}>Current Collection</p>
+            <h2 style={{ fontFamily: "var(--fd)", fontSize: "clamp(40px,5vw,70px)", fontWeight: 300, color: "white", lineHeight: 1.05 }}>Available <em style={{ fontStyle: "italic", color: "var(--gold)" }}>Vehicles</em></h2>
           </div>
-          {[["all", "All"], ["available", "Available"], ["reserved", "Reserved"], ["in transit", "In Transit"]].map(([key, label]) => (
-            <button key={key} onClick={() => setFilter(key)} style={{ padding: "8px 16px", fontFamily: "var(--fc)", fontSize: 10, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", cursor: "pointer", transition: "all 0.2s", background: filter === key ? "var(--gold)" : "transparent", color: filter === key ? "var(--black)" : "var(--silver)", border: filter === key ? "1px solid var(--gold)" : "1px solid var(--border2)" }}>{label}</button>
+          <div className="reveal d2" style={{ display: "flex", gap: 4, flexWrap: "wrap", alignItems: "center" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.04)", border: "1px solid var(--border2)", padding: "8px 14px", marginRight: 8 }}>
+              <span style={{ color: "var(--silver)", fontSize: 13 }}>⌕</span>
+              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search…" style={{ background: "none", border: "none", color: "white", outline: "none", fontSize: 13, fontFamily: "var(--fb)", width: 120 }} />
+            </div>
+            {[["all", "All"], ["available", "Available"], ["reserved", "Reserved"], ["in transit", "In Transit"]].map(([key, label]) => (
+              <button key={key} onClick={() => setFilter(key)} style={{ padding: "8px 16px", fontFamily: "var(--fc)", fontSize: 10, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", cursor: "pointer", transition: "all 0.2s", background: filter === key ? "var(--gold)" : "transparent", color: filter === key ? "var(--black)" : "var(--silver)", border: filter === key ? "1px solid var(--gold)" : "1px solid var(--border2)" }}>{label}</button>
+            ))}
+          </div>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+          {shown.length === 0 && <p style={{ textAlign: "center", color: "var(--silver)", padding: "60px 0" }}>No vehicles found.</p>}
+          {shown.map((v, i) => (
+            <div key={v.id} className="vrow reveal" style={{ display: "grid", gridTemplateColumns: "52px 1fr 120px 100px 100px 180px 110px", alignItems: "center", gap: "0 36px", padding: "26px 0 26px 16px", borderBottom: "1px solid rgba(255,255,255,0.12)", cursor: "pointer", background: "rgba(255,255,255,0.01)", transitionDelay: `${i * 0.04}s` }} onClick={() => onSelect(v)}>
+              <span style={{ fontFamily: "var(--fc)", fontSize: 11, color: "var(--grey)" }}>{"0" + (i + 1)}</span>
+              <div>
+                <p style={{ fontFamily: "var(--fd)", fontSize: 26, fontWeight: 300, color: "white", lineHeight: 1.1, marginBottom: 5 }}>{v.make} {v.model}</p>
+                <p style={{ fontFamily: "var(--fc)", fontSize: 10, color: "var(--silver)", letterSpacing: "0.12em", textTransform: "uppercase" }}>{v.year} · {v.condition} · {v.color}</p>
+              </div>
+              <p className="hide-sm" style={{ fontFamily: "var(--fc)", fontSize: 12, color: "var(--silver)" }}>{originFlags[v.origin] || ""} {v.origin}</p>
+              <div className="hide-sm" style={{ textAlign: "center" }}>
+                <p style={{ fontFamily: "var(--fc)", fontSize: 13, fontWeight: 600, color: "var(--light)" }}>{v.engine_cc}cc</p>
+                <p style={{ fontFamily: "var(--fc)", fontSize: 9, color: "var(--grey)", letterSpacing: "0.15em", textTransform: "uppercase", marginTop: 2 }}>Engine</p>
+              </div>
+              <div className="hide-sm" style={{ textAlign: "center" }}>
+                <p style={{ fontFamily: "var(--fc)", fontSize: 13, fontWeight: 600, color: "var(--light)" }}>{v.mileage} km</p>
+                <p style={{ fontFamily: "var(--fc)", fontSize: 9, color: "var(--grey)", letterSpacing: "0.15em", textTransform: "uppercase", marginTop: 2 }}>Mileage</p>
+              </div>
+              <p style={{ fontFamily: "var(--fd)", fontSize: 22, fontWeight: 300, color: "var(--gold)", textAlign: "right" }}>{fmt(v.selling_price)}</p>
+              <div style={{ display: "flex", justifyContent: "flex-end" }}><StatusBadge s={v.status} /></div>
+            </div>
           ))}
         </div>
       </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-        {shown.length === 0 && <p style={{ textAlign: "center", color: "var(--silver)", padding: "60px 0" }}>No vehicles found.</p>}
-        {shown.map((v, i) => (
-          <div key={v.id} className="vrow reveal" style={{ display: "grid", gridTemplateColumns: "52px 1fr 120px 100px 100px 180px 110px", alignItems: "center", gap: "0 36px", padding: "26px 0 26px 16px", borderBottom: "1px solid rgba(255,255,255,0.12)", cursor: "pointer", background: "rgba(255,255,255,0.01)", transitionDelay: `${i * 0.04}s` }} onClick={() => onSelect(v)}>
-            <span style={{ fontFamily: "var(--fc)", fontSize: 11, color: "var(--grey)" }}>{"0" + (i + 1)}</span>
-            <div>
-              <p style={{ fontFamily: "var(--fd)", fontSize: 26, fontWeight: 300, color: "white", lineHeight: 1.1, marginBottom: 5 }}>{v.make} {v.model}</p>
-              <p style={{ fontFamily: "var(--fc)", fontSize: 10, color: "var(--silver)", letterSpacing: "0.12em", textTransform: "uppercase" }}>{v.year} · {v.condition} · {v.color}</p>
-            </div>
-            <p className="hide-sm" style={{ fontFamily: "var(--fc)", fontSize: 12, color: "var(--silver)" }}>{originFlags[v.origin] || ""} {v.origin}</p>
-            <div className="hide-sm" style={{ textAlign: "center" }}>
-              <p style={{ fontFamily: "var(--fc)", fontSize: 13, fontWeight: 600, color: "var(--light)" }}>{v.engine_cc}cc</p>
-              <p style={{ fontFamily: "var(--fc)", fontSize: 9, color: "var(--grey)", letterSpacing: "0.15em", textTransform: "uppercase", marginTop: 2 }}>Engine</p>
-            </div>
-            <div className="hide-sm" style={{ textAlign: "center" }}>
-              <p style={{ fontFamily: "var(--fc)", fontSize: 13, fontWeight: 600, color: "var(--light)" }}>{v.mileage} km</p>
-              <p style={{ fontFamily: "var(--fc)", fontSize: 9, color: "var(--grey)", letterSpacing: "0.15em", textTransform: "uppercase", marginTop: 2 }}>Mileage</p>
-            </div>
-            <p style={{ fontFamily: "var(--fd)", fontSize: 22, fontWeight: 300, color: "var(--gold)", textAlign: "right" }}>{fmt(v.selling_price)}</p>
-            <div style={{ display: "flex", justifyContent: "flex-end" }}><StatusBadge s={v.status} /></div>
-          </div>
-        ))}
-      </div>
-    </div>
     </section>
   );
 };
@@ -631,79 +632,80 @@ const Fleet = ({ vehicles, onSelect }: { vehicles: Vehicle[]; onSelect: (v: Vehi
    FEATURED CARDS — LIVE FROM SUPABASE
 ══════════════════════════════════════════════════════════════ */
 const FeaturedCards = ({ vehicles, onSelect }: { vehicles: Vehicle[]; onSelect: (v: Vehicle) => void }) => {
-  const [idx, setIdx] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const CARD_W = 392;
   const featured = vehicles.filter(v => v.featured && v.status !== "Sold").slice(0, 6);
-  const shapes = ["torus", "icosa", "octa", "box", "torus", "icosa"];
-  const canvasRefs = useRef<(HTMLCanvasElement | null)[]>([]);
-  const originFlags: Record<string, string> = { Japan: "��🇵", Germany: "🇩🇪", "United Kingdom": "🇬🇧", UK: "🇬🇧", Sweden: "🇸🇪", USA: "🇺🇸" };
+  const originFlags: Record<string, string> = { Japan: "🇯🇵", Germany: "🇩🇪", "United Kingdom": "🇬🇧", UK: "🇬🇧", Sweden: "🇸🇪", USA: "🇺🇸" };
 
   useEffect(() => {
-    if (trackRef.current) {
-      trackRef.current.style.transform = `translateX(-${idx * CARD_W}px)`;
-      trackRef.current.style.transition = "transform 0.55s cubic-bezier(.4,0,.2,1)";
-    }
-  }, [idx]);
+    const onScroll = () => {
+      if (!containerRef.current || !trackRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const viewH = window.innerHeight;
+      const totalScroll = rect.height - viewH;
+      const currentScroll = -rect.top;
+      const progress = Math.min(Math.max(currentScroll / totalScroll, 0), 1);
+      
+      const trackW = trackRef.current.scrollWidth;
+      const viewportW = window.innerWidth;
+      const maxMove = Math.max(0, trackW - viewportW + 120); 
+      
+      trackRef.current.style.transform = `translateX(${-progress * maxMove}px)`;
+    };
+
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [featured.length]);
 
   if (featured.length === 0) return null;
 
   return (
-    <section style={{ padding: "120px 0 100px", background: "var(--black2)", overflow: "hidden" }}>
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "flex-end", marginBottom: 60 }} className="grid-2-auto">
-          <div className="reveal-l">
+    <section ref={containerRef} style={{ height: "350vh", position: "relative", zIndex: 10 }}>
+      <div style={{ position: "sticky", top: 0, height: "100vh", background: "var(--black2)", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px", width: "100%" }}>
+          <div style={{ marginBottom: 60 }} className="reveal-l">
             <p className="sec-tag" style={{ fontFamily: "var(--fc)", fontSize: 10, fontWeight: 700, letterSpacing: "0.38em", textTransform: "uppercase", color: "var(--gold)", marginBottom: 20 }}>Featured Imports</p>
             <h2 style={{ fontFamily: "var(--fd)", fontSize: "clamp(40px,5vw,68px)", fontWeight: 300, color: "white", lineHeight: 1.05 }}>Handpicked for<br />the <em style={{ fontStyle: "italic", color: "var(--gold)" }}>Exceptional</em></h2>
           </div>
-          <div className="reveal-r" style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 16 }}>
-            <p style={{ fontSize: 14, color: "var(--silver)", lineHeight: 1.8, maxWidth: 340, textAlign: "right" }}>Drag or use arrows to explore our featured collection. Each vehicle is sourced directly and ready for delivery.</p>
-            <div style={{ display: "flex", gap: 6 }}>
-              {["←", "→"].map((arrow, i) => (
-                <button key={arrow} onClick={() => setIdx(i === 0 ? Math.max(0, idx - 1) : Math.min(featured.length - 2, idx + 1))}
-                  style={{ width: 46, height: 46, border: "1px solid var(--border2)", background: "transparent", color: "white", cursor: "pointer", fontSize: 18, display: "flex", alignItems: "center", justifyContent: "center", transition: "all 0.3s" }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "var(--gold)"; (e.currentTarget as HTMLElement).style.color = "var(--black)"; (e.currentTarget as HTMLElement).style.borderColor = "var(--gold)"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "white"; (e.currentTarget as HTMLElement).style.borderColor = "var(--border2)"; }}
-                >{arrow}</button>
-              ))}
-            </div>
-          </div>
         </div>
-      </div>
-      <div style={{ paddingLeft: 60, overflow: "hidden" }}>
-        <div ref={trackRef} style={{ display: "flex", gap: 20, width: "max-content" }}>
-          {featured.map((v, i) => (
-            <div key={v.id} className="car-card reveal" style={{ width: CARD_W - 20, flexShrink: 0, background: "var(--black3)", border: "1px solid var(--border)", overflow: "hidden", cursor: "pointer", transitionDelay: `${i * 0.08}s` }} onClick={() => onSelect(v)}>
-              <div style={{ height: 260, background: "linear-gradient(135deg,#0a0a0a,#181818)", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
-                <svg style={{ opacity: 0.12, position: "absolute" }} width="300" height="140" viewBox="0 0 300 140" fill="none">
-                  <path d="M30 100 L50 60 Q68 40 95 36 L150 32 L220 36 Q248 44 262 66 L278 100 L282 106 L282 116 L30 116 L30 106Z" stroke="white" strokeWidth="2" fill="none" />
-                  <circle cx="82" cy="120" r="14" stroke="white" strokeWidth="2" fill="none" />
-                  <circle cx="225" cy="120" r="14" stroke="white" strokeWidth="2" fill="none" />
-                </svg>
-                <div style={{ position: "absolute", top: 16, right: 16, zIndex: 2 }}><StatusBadge s={v.status} /></div>
-                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,transparent 50%,rgba(0,0,0,0.5) 100%)" }} />
-              </div>
-              <div style={{ padding: 28 }}>
-                <p style={{ fontSize: 20, marginBottom: 10 }}>{originFlags[v.origin] || "🌍"}</p>
-                <p style={{ fontFamily: "var(--fd)", fontSize: 30, fontWeight: 300, color: "white", lineHeight: 1.1, marginBottom: 4 }}>{v.make} {v.model}</p>
-                <p style={{ fontFamily: "var(--fc)", fontSize: 11, color: "var(--silver)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 20 }}>{v.year} · {v.origin} · {v.condition}</p>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12, borderTop: "1px solid var(--border)", paddingTop: 18, marginBottom: 20 }}>
-                  {[["Engine", v.engine_cc + "cc"], ["Gearbox", v.transmission.split(" ")[0]], ["Mileage", v.mileage + " km"]].map(([k, val]) => (
-                    <div key={k}>
-                      <p style={{ fontFamily: "var(--fc)", fontSize: 9, color: "var(--grey)", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 3 }}>{k}</p>
-                      <p style={{ fontFamily: "var(--fc)", fontSize: 12, fontWeight: 600, color: "var(--light)" }}>{val}</p>
-                    </div>
-                  ))}
+
+        <div style={{ paddingLeft: 60 }}>
+          <div ref={trackRef} style={{ display: "flex", gap: 30, width: "max-content", transition: "transform 0.15s ease-out" }}>
+            {featured.map((v, i) => (
+              <div key={v.id} className="car-card" style={{ width: 440, flexShrink: 0, background: "var(--black3)", border: "1px solid var(--border)", overflow: "hidden", cursor: "pointer", transition: "all 0.4s ease" }} onClick={() => onSelect(v)}>
+                <div style={{ height: 280, background: "linear-gradient(135deg,#0a0a0a,#181818)", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
+                  <svg style={{ opacity: 0.15, position: "absolute" }} width="320" height="150" viewBox="0 0 300 140" fill="none">
+                    <path d="M30 100 L50 60 Q68 40 95 36 L150 32 L220 36 Q248 44 262 66 L278 100 L282 106 L282 116 L30 116 L30 106Z" stroke="white" strokeWidth="2" fill="none" />
+                    <circle cx="82" cy="120" r="14" stroke="white" strokeWidth="2" fill="none" />
+                    <circle cx="225" cy="120" r="14" stroke="white" strokeWidth="2" fill="none" />
+                  </svg>
+                  <div style={{ position: "absolute", top: 16, right: 16, zIndex: 2 }}><StatusBadge s={v.status} /></div>
+                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg,transparent 50%,rgba(0,0,0,0.6) 100%)" }} />
                 </div>
-                <p style={{ fontFamily: "var(--fd)", fontSize: 30, fontWeight: 300, color: "var(--gold)" }}>{fmt(v.selling_price)}</p>
+                <div style={{ padding: 32 }}>
+                  <p style={{ fontSize: 22, marginBottom: 10 }}>{originFlags[v.origin] || "🌍"}</p>
+                  <p style={{ fontFamily: "var(--fd)", fontSize: 32, fontWeight: 300, color: "white", lineHeight: 1.1, marginBottom: 6 }}>{v.make} {v.model}</p>
+                  <p style={{ fontFamily: "var(--fc)", fontSize: 12, color: "var(--silver)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 24 }}>{v.year} · {v.origin} · {v.condition}</p>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 14, borderTop: "1px solid var(--border)", paddingTop: 20, marginBottom: 24 }}>
+                    {[["Engine", v.engine_cc + "cc"], ["Gearbox", v.transmission.split(" ")[0]], ["Mileage", v.mileage + " km"]].map(([k, val]) => (
+                      <div key={k}>
+                        <p style={{ fontFamily: "var(--fc)", fontSize: 10, color: "var(--grey)", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 4 }}>{k}</p>
+                        <p style={{ fontFamily: "var(--fc)", fontSize: 13, fontWeight: 600, color: "var(--light)" }}>{val}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <p style={{ fontFamily: "var(--fd)", fontSize: 32, fontWeight: 300, color: "var(--gold)" }}>{fmt(v.selling_price)}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+            <div style={{ width: 100, flexShrink: 0 }} /> {/* Spacer at the end */}
+          </div>
         </div>
       </div>
     </section>
   );
 };
+
 
 /* ══════════════════════════════════════════════════════════════
    PARALLAX QUOTE
