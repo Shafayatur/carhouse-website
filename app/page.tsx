@@ -150,6 +150,8 @@ const BRANDS = [
   { name: "Volkswagen", origin: "Germany" }, { name: "Bentley", origin: "UK" },
   { name: "Jaguar", origin: "UK" }, { name: "Subaru", origin: "Japan" },
   { name: "Mitsubishi", origin: "Japan" }, { name: "Ford", origin: "USA" },
+  { name: "Mustang", origin: "USA" }, { name: "Corolla", origin: "Japan" },
+  { name: "Honda", origin: "Japan" }, { name: "Honda", origin: "Japan" },
 ];
 
 const TESTIMONIALS = [
