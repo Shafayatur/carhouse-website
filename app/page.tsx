@@ -660,12 +660,15 @@ const FeaturedCards = ({ vehicles, onSelect }: { vehicles: Vehicle[]; onSelect: 
   if (featured.length === 0) return null;
 
   return (
-    <section ref={containerRef} style={{ height: "350vh", position: "relative", zIndex: 10 }}>
-      <div style={{ position: "sticky", top: 0, height: "100vh", background: "var(--black2)", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+    <section ref={containerRef} style={{ height: "450vh", position: "relative", zIndex: 1 }}>
+      <div style={{ position: "sticky", top: 0, height: "100vh", background: "#0e1016", overflow: "hidden", display: "flex", flexDirection: "column", justifyContent: "center", zIndex: 1 }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px", width: "100%" }}>
-          <div style={{ marginBottom: 60 }} className="reveal-l">
-            <p className="sec-tag" style={{ fontFamily: "var(--fc)", fontSize: 10, fontWeight: 700, letterSpacing: "0.38em", textTransform: "uppercase", color: "var(--gold)", marginBottom: 20 }}>Featured Imports</p>
-            <h2 style={{ fontFamily: "var(--fd)", fontSize: "clamp(40px,5vw,68px)", fontWeight: 300, color: "white", lineHeight: 1.05 }}>Handpicked for<br />the <em style={{ fontStyle: "italic", color: "var(--gold)" }}>Exceptional</em></h2>
+          <div style={{ marginBottom: 48, display: "flex", justifyContent: "space-between", alignItems: "flex-end" }} className="reveal-l">
+            <div>
+              <p className="sec-tag" style={{ fontFamily: "var(--fc)", fontSize: 10, fontWeight: 700, letterSpacing: "0.38em", textTransform: "uppercase", color: "var(--gold)", marginBottom: 20 }}>Featured Imports</p>
+              <h2 style={{ fontFamily: "var(--fd)", fontSize: "clamp(40px,5vw,68px)", fontWeight: 300, color: "white", lineHeight: 1.05 }}>Handpicked for<br />the <em style={{ fontStyle: "italic", color: "var(--gold)" }}>Exceptional</em></h2>
+            </div>
+            <p style={{ fontFamily: "var(--fc)", fontSize: 11, color: "var(--silver)", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: 8 }}>Scroll to explore →</p>
           </div>
         </div>
 
@@ -714,7 +717,7 @@ const ParallaxQuote = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useMiniScene(canvasRef, { shape: "icosa", color: 0xc9a84c, speed: 0.6 });
   return (
-    <section style={{ position: "relative", height: "65vh", minHeight: 400, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "var(--black3)" }}>
+    <section style={{ position: "relative", height: "65vh", minHeight: 400, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", background: "var(--black3)", zIndex: 2 }}>
       <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at 50% 50%,rgba(201,168,76,0.06) 0%,transparent 65%)", animation: "parPulse 6s ease-in-out infinite" }} />
       <div style={{ position: "absolute", top: "50%", left: 0, right: 0, height: 1, background: "var(--border)" }} />
       <div style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: 1, background: "var(--border)" }} />
@@ -744,7 +747,7 @@ const Process = () => {
     return () => obs.disconnect();
   }, []);
   return (
-    <section id="process" style={{ padding: "120px 0", background: "var(--black)" }}>
+    <section id="process" style={{ padding: "120px 0", background: "#0a0c10", zIndex: 2, position: "relative" }}>
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "100px", alignItems: "start" }} className="grid-2-auto">
           <div style={{ position: "sticky", top: 120 }}>
@@ -779,7 +782,7 @@ const Process = () => {
    BRANDS
 ══════════════════════════════════════════════════════════════ */
 const Brands = () => (
-  <section id="brands" style={{ padding: "100px 0", background: "var(--black2)" }}>
+  <section id="brands" style={{ padding: "100px 0", background: "#111318", zIndex: 2, position: "relative" }}>
     <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px" }}>
       <div className="reveal" style={{ textAlign: "center", marginBottom: 72 }}>
         <p style={{ fontFamily: "var(--fc)", fontSize: 10, fontWeight: 700, letterSpacing: "0.38em", textTransform: "uppercase", color: "var(--gold)", marginBottom: 20, display: "flex", alignItems: "center", justifyContent: "center", gap: 14 }}>
@@ -816,7 +819,7 @@ const Stats = ({ vehicles }: { vehicles: Vehicle[] }) => {
   const c15 = useCounter(15, active);
   const stats = [[c500 + "+", "Vehicles Imported"], [c8, "Years of Excellence"], [c200 + "+", "Satisfied Clients"], [c15 + "+", "Premium Brands"]];
   return (
-    <section ref={ref} style={{ background: "var(--gold)", padding: 0 }}>
+    <section ref={ref} style={{ background: "var(--gold)", padding: 0, position: "relative", zIndex: 2 }}>
       <div className="grid-4-sm2" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", maxWidth: 1400, margin: "0 auto" }}>
         {stats.map(([n, l], i) => (
           <div key={l} style={{ padding: "72px 48px", borderRight: i < 3 ? "1px solid rgba(0,0,0,0.12)" : "none", textAlign: "center" }}>
@@ -847,7 +850,7 @@ const Editorial = () => {
     { num: "03", title: "Complete Customs Management", em: "Customs Management", body: "We manage the entire NBR customs process — customs duty, supplementary duty, VAT and advance income tax payment, port release — with complete cost transparency before you commit.", cta: "View Import Process", href: "#process", shape: "octa", ref: c3 },
   ];
   return (
-    <section id="editorial" style={{ background: "var(--black2)" }}>
+    <section id="editorial" style={{ background: "#111318", zIndex: 2, position: "relative" }}>
       {sections.map((s, i) => (
         <div key={i} className="ed-row" style={{ display: "flex", minHeight: 560, flexDirection: s.flip ? "row-reverse" : "row" }}>
           <div style={{ flex: 1, background: "var(--black3)", position: "relative", minHeight: 400, overflow: "hidden" }}>
@@ -884,7 +887,7 @@ const Order = ({ vehicles }: { vehicles: Vehicle[] }) => {
     setSent(true); setTimeout(() => setSent(false), 6000);
   };
   return (
-    <section id="order" style={{ padding: "120px 0", background: "var(--black3)" }}>
+    <section id="order" style={{ padding: "120px 0", background: "#0d0f14", zIndex: 2, position: "relative" }}>
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }} className="grid-2-auto">
           <div className="reveal-l" style={{ paddingRight: 80, borderRight: "1px solid var(--border)" }}>
@@ -999,7 +1002,7 @@ const Testimonials = () => {
   }, [idx, isMob]);
   useEffect(() => { const t = setInterval(() => setIdx(p => p >= TESTIMONIALS.length - (isMob ? 1 : 2) ? 0 : p + 1), 6000); return () => clearInterval(t); }, []);
   return (
-    <section id="testimonials" style={{ padding: "120px 0", background: "var(--black)" }}>
+    <section id="testimonials" style={{ padding: "120px 0", background: "#0a0c10", zIndex: 2, position: "relative" }}>
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 72, flexWrap: "wrap", gap: 24 }}>
           <div className="reveal-l">
@@ -1050,7 +1053,7 @@ const Contact = ({ settings }: { settings: Record<string, string> }) => {
     setSent(true); setTimeout(() => setSent(false), 5000);
   };
   return (
-    <section id="contact" style={{ padding: "120px 0", background: "var(--black2)" }}>
+    <section id="contact" style={{ padding: "120px 0", background: "#111318", zIndex: 2, position: "relative" }}>
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start" }} className="grid-2-auto">
           <form onSubmit={submit} className="reveal-l">
@@ -1100,7 +1103,7 @@ const Contact = ({ settings }: { settings: Record<string, string> }) => {
    FOOTER
 ══════════════════════════════════════════════════════════════ */
 const Footer = ({ settings }: { settings: Record<string, string> }) => (
-  <footer style={{ background: "var(--black3)", borderTop: "1px solid var(--border)" }}>
+  <footer style={{ background: "#0d0f14", borderTop: "1px solid var(--border)", position: "relative", zIndex: 2 }}>
     <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 60px" }}>
       <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 60, padding: "80px 0" }}>
         <div>
